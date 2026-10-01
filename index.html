@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For The Love Of God</title>
+<meta name="description" content="Rick and Anna Clissold — For The Love Of God Down Under. Amidst all the confusion of religion, the message remains simple: He loves you.">
+<meta property="og:title" content="For The Love Of God">
+<meta property="og:site_name" content="For The Love Of God">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.theloveofgod.com.au">
+<meta property="og:description" content="Amidst all the confusion of religion, the message remains simple: He loves you.">
+<meta property="og:image" content="images/logo.png">
+<meta name="theme-color" content="#24006b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23f7c600'/%3E%3Cstop offset='.45' stop-color='%23ff3d7f'/%3E%3Cstop offset='1' stop-color='%2314a7c0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%2324006b'/%3E%3Cpath d='M32 50s-16-9.5-16-21a9 9 0 0 1 16-5.6A9 9 0 0 1 48 29c0 11.5-16 21-16 21z' fill='url(%23g)'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500&display=swap" rel="stylesheet">
+
+<!--
+  ================================================================
+  FOR THE LOVE OF GOD — single-file site (v2)
+  ----------------------------------------------------------------
+  EDITING:   all words, links, images and TV channels live in the
+             CONTENT block at the top of the <script> near the end.
+  IMAGES:    currently pointing at the old Squarespace CDN. Save
+             each into /images in the repo and change the path.
+  OLD LINKS: upload a copy of this file named 404.html too — the
+             router sends old Squarespace URLs to the right page.
+  ================================================================
+-->
+
+<style>
+:root{
+  /* the palette comes straight from the brush-stroke logo */
+  --ink:#24006b;          /* the site's indigo */
+  --ink-deep:#160043;
+  --violet:#6b3df5;       /* buttons */
+  --cream:#f6f4ea;        /* reading panels */
+  --paper:#fffdf7;
+  --text:#1d1830;
+  --muted:#5d5873;
+  --b-yellow:#f7c600; --b-pink:#ff3d7f; --b-red:#e8202a; --b-teal:#14a7c0; --b-blue:#3d6dea;
+  --brush:linear-gradient(90deg,var(--b-yellow),var(--b-pink) 30%,var(--b-red) 50%,var(--b-teal) 75%,var(--b-blue));
+  --font:"Poppins", "Segoe UI", system-ui, -apple-system, Helvetica, Arial, sans-serif;
+  --gutter:clamp(1.25rem,4vw,3rem);
+  --head:84px;
+  --curve:clamp(2.5rem,6vw,5rem);
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--font);font-size:1rem;line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+[hidden]{display:none!important}
+a{color:var(--violet)}
+:focus-visible{outline:3px solid var(--b-yellow);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:-999px;top:0;background:var(--b-yellow);color:var(--ink);padding:.6rem 1rem;z-index:99;font-weight:700}
+.skip:focus{left:1rem;top:1rem}
+.wrap{max-width:74rem;margin:0 auto;padding:0 var(--gutter)}
+h1,h2,h3{font-weight:700;letter-spacing:-.025em;line-height:1.05;margin:0}
+
+/* ---------- typography effects ---------- */
+.brush-text{
+  background:var(--brush);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:sheen 9s ease-in-out infinite alternate;
+}
+@keyframes sheen{from{background-position:0% 50%}to{background-position:100% 50%}}
+/* words rise out of a soft blur, staggered with --i */
+.words .w{display:inline-block;opacity:0;filter:blur(10px);transform:translateY(.35em);
+  transition:opacity .9s var(--ease),filter .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--i) * 70ms)}
+.page.active .words.in .w{opacity:1;filter:none;transform:none}
+/* a brush stroke that paints itself under headings as they scroll in */
+.stroke{position:relative;display:inline-block;padding-bottom:.18em}
+.stroke::after{content:"";position:absolute;left:-.05em;right:-.05em;bottom:0;height:.16em;border-radius:99px;background:var(--brush);
+  transform:scaleX(0);transform-origin:left;transition:transform 1.1s var(--ease) .25s}
+.stroke.in::after{transform:scaleX(1)}
+.fade{opacity:0;transform:translateY(18px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.fade.in{opacity:1;transform:none}
+
+/* ---------- header ---------- */
+.site-head{position:fixed;inset:0 0 auto;height:var(--head);z-index:60;display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);
+  transition:background .4s ease,box-shadow .4s ease,height .4s ease}
+.site-head.solid{background:rgba(36,0,107,.86);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);box-shadow:0 10px 30px -18px rgba(0,0,0,.6);height:70px}
+.brand{display:flex;align-items:center;text-decoration:none;color:#fff}
+.brand img{height:78px;width:auto;transition:height .4s ease,transform .4s var(--ease);filter:drop-shadow(0 4px 14px rgba(0,0,0,.25))}
+.site-head.solid .brand img{height:56px}
+.brand:hover img{transform:rotate(-4deg) scale(1.04)}
+.brand .word{font-weight:800;font-size:1.15rem;line-height:1.05}
+.brand .word em{display:block;font-weight:400;font-size:.9rem}
+.nav{display:flex;gap:.2rem;align-items:center}
+.nav a{position:relative;color:#fff;text-decoration:none;font-weight:500;font-size:.95rem;padding:.55rem .85rem;transition:opacity .2s}
+.nav a::after{content:"";position:absolute;left:.85rem;right:.85rem;bottom:.25rem;height:2px;border-radius:2px;background:var(--brush);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
+.nav a:hover::after,.nav a[aria-current="page"]::after{transform:scaleX(1);transform-origin:left}
+.nav a.tv-link{margin-left:.5rem;border-radius:999px;background:rgba(255,255,255,.12);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);padding-inline:1rem;display:flex;gap:.45rem;align-items:center}
+.nav a.tv-link::after{display:none}
+.nav a.tv-link:hover,.nav a.tv-link[aria-current="page"]{background:#fff;color:var(--ink)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--b-red);box-shadow:0 0 0 0 rgba(232,32,42,.7);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(232,32,42,0)}100%{box-shadow:0 0 0 0 rgba(232,32,42,0)}}
+.menu-btn{display:none;background:none;border:0;color:#fff;cursor:pointer;padding:.5rem;margin-right:-.5rem}
+.menu-btn svg{width:30px;height:30px}
+@media (max-width:900px){
+  .menu-btn{display:block}
+  .nav{position:fixed;inset:0;background:var(--ink-deep);flex-direction:column;justify-content:center;gap:.4rem;clip-path:circle(0 at calc(100% - 2.5rem) 2.5rem);transition:clip-path .6s var(--ease);visibility:hidden}
+  .nav.open{clip-path:circle(150% at calc(100% - 2.5rem) 2.5rem);visibility:visible}
+  .nav a{font-size:1.9rem;font-weight:700}
+  .nav a.tv-link{font-size:1.2rem;margin:1rem 0 0}
+  .nav .close{position:absolute;top:1.1rem;right:var(--gutter);background:none;border:0;color:#fff;font-size:2.6rem;cursor:pointer;line-height:1}
+  .brand img{height:62px}
+}
+@media (min-width:901px){.nav .close{display:none}}
+
+/* ---------- pages + transitions ---------- */
+.page{display:none}
+.page.active{display:block;animation:pageIn .7s var(--ease) both}
+@keyframes pageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+body.leaving main{opacity:0;transition:opacity .18s ease}
+
+/* image boxes keep a fallback wash so a missing photo still looks deliberate */
+.imgbox{position:relative;overflow:hidden;background:radial-gradient(90% 70% at 75% 10%,rgba(255,61,127,.45),transparent 60%),radial-gradient(70% 60% at 15% 30%,rgba(20,167,192,.5),transparent 60%),linear-gradient(180deg,#3d6dea,#24006b 75%)}
+.imgbox img{width:100%;height:100%;object-fit:cover}
+.imgbox.missing img{visibility:hidden}
+
+/* every photo band ends in the same soft curve, taken from the old Links page */
+.curve{border-radius:0 0 var(--curve) var(--curve)}
+
+/* ---------- home hero ---------- */
+.hero{position:relative;min-height:100svh;color:#fff;display:flex;align-items:center;padding:calc(var(--head) + 2rem) 0 clamp(4rem,10vw,7rem);background:var(--ink)}
+.hero>.imgbox{position:absolute;inset:0}
+.hero>.imgbox img{transform:scale(1.08);transition:transform 6s var(--ease)}
+.page.active .hero>.imgbox img{transform:scale(1)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,0,67,.45) 0%,rgba(36,0,107,.15) 30%,rgba(36,0,107,.7) 70%,var(--ink) 100%)}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(2rem,5vw,4.5rem);align-items:center}
+.hero h1{font-size:clamp(3.6rem,9.5vw,8.2rem);font-weight:800;line-height:.92;letter-spacing:-.045em;text-shadow:0 6px 40px rgba(22,0,67,.35)}
+.hero h1 .brush-text{text-shadow:none;filter:drop-shadow(0 6px 30px rgba(22,0,67,.4))}
+.hero .lead{max-width:32rem;margin:1.6rem 0 2rem;font-size:clamp(1.05rem,1.5vw,1.2rem);font-weight:300;color:rgba(255,255,255,.92)}
+.hero .lead strong{font-weight:600;color:#fff}
+.actions{display:flex;gap:.8rem;flex-wrap:wrap}
+
+/* buttons */
+.btn{position:relative;display:inline-flex;align-items:center;gap:.55rem;font:600 .95rem var(--font);padding:.9rem 1.5rem;border-radius:999px;border:0;text-decoration:none;cursor:pointer;color:#fff;background:var(--violet);isolation:isolate;overflow:hidden;transition:transform .25s var(--ease),box-shadow .25s}
+.btn::before{content:"";position:absolute;inset:0;background:var(--brush);opacity:0;z-index:-1;transition:opacity .35s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(107,61,245,.7);color:#fff}
+.btn:hover::before{opacity:1}
+.btn.light{background:rgba(255,255,255,.14);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.55);backdrop-filter:blur(6px)}
+.btn.light:hover{box-shadow:none}
+.btn.line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.btn.line:hover{color:#fff;box-shadow:none}
+.btn svg{width:16px;height:16px}
+
+/* home right column: mini TV + blog card */
+.mini-tv{display:block;text-decoration:none;color:#fff;border-radius:18px;padding:10px;background:linear-gradient(160deg,#2a2440,#0e0b1a);box-shadow:0 30px 70px -25px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08);transition:transform .45s var(--ease)}
+.mini-tv:hover{transform:translateY(-4px) rotate(-.5deg)}
+.mini-tv .scr{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden}
+.mini-tv .scr::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px);pointer-events:none}
+.mini-tv .bug{position:absolute;z-index:2;top:.7rem;left:.8rem}
+.mini-tv .live{position:absolute;z-index:2;top:.75rem;right:.8rem}
+.mini-tv .pbtn{position:absolute;z-index:2;inset:0;margin:auto;width:70px;height:70px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6);transition:transform .3s var(--ease),background .3s}
+.mini-tv:hover .pbtn{transform:scale(1.1);background:var(--violet);box-shadow:none}
+.mini-tv .cap{display:flex;justify-content:space-between;align-items:center;padding:.75rem .4rem .2rem;font-size:.85rem;color:rgba(255,255,255,.75)}
+.mini-tv .cap b{color:#fff;font-weight:600}
+.bug{font-weight:800;font-size:.72rem;letter-spacing:.08em;line-height:1;padding:.4rem .55rem;border-radius:6px;background:rgba(22,0,67,.7);backdrop-filter:blur(4px);color:#fff}
+.bug span{background:var(--brush);-webkit-background-clip:text;background-clip:text;color:transparent}
+.live{display:flex;gap:.4rem;align-items:center;font-size:.7rem;font-weight:700;letter-spacing:.08em;padding:.35rem .55rem;border-radius:6px;background:rgba(232,32,42,.9);color:#fff;line-height:1}
+.live .dot{background:#fff;animation:blink 1.6s steps(2) infinite;box-shadow:none}
+@keyframes blink{50%{opacity:.2}}
+
+.blog-card{margin-top:1.1rem;background:var(--cream);color:var(--text);border-radius:16px;padding:1.4rem 1.5rem;position:relative;overflow:hidden;box-shadow:0 20px 50px -25px rgba(0,0,0,.6)}
+.blog-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--brush);background-size:100% 300%}
+.blog-card small{display:block;font-weight:700;font-size:.78rem;color:var(--ink);margin-bottom:.35rem}
+.blog-card p{margin:0;font-style:italic;font-size:.95rem;line-height:1.65}
+.blog-card a{display:inline-block;margin-top:.7rem;font-weight:600;font-size:.9rem;color:var(--violet);text-decoration:none}
+.blog-card a:hover{text-decoration:underline}
+
+/* ---------- message band ---------- */
+.message{position:relative;z-index:1;background:var(--ink);color:#fff;padding:clamp(3rem,8vw,6rem) 0 clamp(5rem,12vw,9rem)}
+.message .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1.5rem,4vw,3.5rem)}
+.message p{margin:0;font-size:clamp(1.02rem,1.3vw,1.12rem);font-weight:300;color:rgba(255,255,255,.88);line-height:1.85}
+.message .num{display:block;width:44px;height:6px;border-radius:9px;background:var(--brush);margin-bottom:1.3rem}
+.message .cols>div:nth-child(2) .num{background-position:50%;background-size:300%}
+.message .cols>div:nth-child(3) .num{background-position:100%;background-size:300%}
+.lk{font-weight:600;font-style:italic}
+.message .big-line{color:#fff;margin-top:clamp(3rem,7vw,5rem);font-size:clamp(2.2rem,5.6vw,4.6rem);font-weight:800;line-height:1.02;letter-spacing:-.04em;max-width:16ch}
+
+/* ---------- book band ---------- */
+.book-band{background:var(--cream);margin-top:calc(var(--curve) * -1);padding:calc(var(--curve) + clamp(3rem,7vw,5rem)) 0 clamp(4rem,9vw,7rem);position:relative}
+.book-band .grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,6vw,5rem);align-items:center}
+.cover{position:relative;width:100%;max-width:300px;margin-inline:auto;aspect-ratio:2/3;border-radius:4px 10px 10px 4px;
+  box-shadow:0 40px 70px -30px rgba(36,0,107,.6),-12px 0 0 -6px rgba(36,0,107,.08);transform:perspective(900px) rotateY(14deg) rotateZ(-1deg);transition:transform .7s var(--ease)}
+.cover:hover{transform:perspective(900px) rotateY(0) rotateZ(0)}
+.cover .fb{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;text-align:center;padding:1.5rem;color:#fff}
+.cover.missing .fb{display:flex}
+.cover .fb strong{font-size:1.5rem;line-height:1.15}
+.cover .fb span{margin-top:.8rem;font-weight:300}
+.eyebrow{font-weight:600;color:var(--violet);margin:0 0 .6rem;font-size:.95rem}
+.h2{font-size:clamp(2.2rem,4.8vw,3.8rem);color:var(--ink)}
+.tag{font-size:clamp(1.1rem,1.8vw,1.35rem);font-weight:300;font-style:italic;color:var(--muted);margin:1rem 0 1.4rem;max-width:32rem}
+
+/* ---------- inner banners ---------- */
+.banner{position:relative;min-height:clamp(340px,52vh,520px);display:flex;align-items:flex-end;color:#fff;background:var(--ink)}
+.banner>.imgbox{position:absolute;inset:0}
+.banner::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(22,0,67,.55),rgba(36,0,107,.15) 40%,rgba(36,0,107,.8))}
+.banner .wrap{position:relative;z-index:2;width:100%;padding-bottom:clamp(2.5rem,6vw,4rem)}
+.banner h1{font-size:clamp(3rem,9vw,6.5rem);font-weight:800;letter-spacing:-.045em;line-height:.95}
+.banner p{margin:.9rem 0 0;max-width:36rem;font-weight:300;font-size:1.08rem;color:rgba(255,255,255,.9)}
+.section{padding:clamp(3.5rem,8vw,6rem) 0}
+.section.cream{background:var(--cream)}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(2rem,6vw,5rem);align-items:start}
+.lede{font-size:clamp(1.25rem,2vw,1.5rem);line-height:1.5;color:var(--ink);font-weight:500;margin:1.4rem 0}
+.portrait{aspect-ratio:4/5;border-radius:24px;transform:rotate(1.5deg);box-shadow:0 30px 60px -30px rgba(36,0,107,.6);transition:transform .6s var(--ease)}
+.portrait:hover{transform:rotate(0)}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:2.4rem 0}
+.facts div{background:var(--cream);border-radius:14px;padding:1rem 1.1rem;font-size:.88rem;color:var(--muted);line-height:1.5}
+.facts b{display:block;color:var(--ink);font-size:1.1rem;margin-bottom:.15rem}
+
+/* publications */
+.book-page{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(2rem,6vw,5rem);align-items:start}
+.book-page .cover{position:sticky;top:calc(var(--head) + 1.5rem)}
+.learn{list-style:none;padding:0;margin:1.2rem 0 2rem;display:grid;gap:.6rem}
+.learn li{background:#fff;border-radius:12px;padding:.8rem 1rem .8rem 3rem;position:relative;box-shadow:0 1px 0 rgba(36,0,107,.08);transition:transform .3s var(--ease)}
+.learn li:hover{transform:translateX(6px)}
+.learn li::before{content:"";position:absolute;left:1rem;top:1.15rem;width:18px;height:6px;border-radius:9px;background:var(--brush)}
+.quote{margin:2.4rem 0;padding:2rem;border-radius:20px;background:var(--ink);color:#fff;font-size:clamp(1.3rem,2.2vw,1.7rem);font-weight:600;line-height:1.35;letter-spacing:-.015em;position:relative;overflow:hidden}
+.quote::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:var(--brush);opacity:.35;filter:blur(40px)}
+.quote cite{display:block;margin-top:.8rem;font-style:normal;font-weight:400;font-size:.95rem;opacity:.8}
+.price{display:flex;gap:1rem;margin:1.4rem 0;flex-wrap:wrap}
+.price div{background:#fff;border-radius:14px;padding:.9rem 1.2rem;font-size:.85rem;color:var(--muted);line-height:1.3}
+.price b{display:block;font-size:1.6rem;color:var(--ink)}
+
+/* ---------- LOVE OF GOD TV ---------- */
+.tv-wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:clamp(1.25rem,3vw,2rem);align-items:start}
+.tv{background:linear-gradient(160deg,#2c2546,#0d0a19 70%);border-radius:24px;padding:12px;box-shadow:0 40px 90px -40px rgba(22,0,67,.9),0 0 0 1px rgba(255,255,255,.06),inset 0 1px 0 rgba(255,255,255,.08);color:#fff;position:relative}
+.tv::before{content:"";position:absolute;inset:-2px;border-radius:26px;padding:2px;background:var(--brush);background-size:300% 100%;animation:sheen 8s linear infinite alternate;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.55;pointer-events:none}
+.tv-top{display:flex;align-items:center;gap:.8rem;padding:.3rem .5rem .75rem;font-size:.85rem}
+.tv-logo{font-weight:800;letter-spacing:.06em;font-size:.95rem}
+.tv-logo span{background:var(--brush);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tv-chan{margin-left:auto;color:rgba(255,255,255,.7)}
+.tv-clock{font-variant-numeric:tabular-nums;font-weight:600;padding:.25rem .55rem;border-radius:6px;background:rgba(255,255,255,.08)}
+.screen{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000}
+.screen iframe,.screen #ytScreen{position:absolute;inset:0;width:100%;height:100%;border:0}
+.poster{position:absolute;inset:0;z-index:3;border:0;padding:0;margin:0;cursor:pointer;color:#fff;background:#000;width:100%}
+.poster img{width:100%;height:100%;object-fit:cover;opacity:.85;transition:transform 1.2s var(--ease),opacity .4s}
+.poster:hover img{transform:scale(1.03);opacity:1}
+.poster::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),transparent 35%,rgba(22,0,67,.85))}
+.poster .pbtn{position:absolute;z-index:2;inset:0;margin:auto;width:92px;height:92px;border-radius:50%;display:grid;place-items:center;background:var(--violet);box-shadow:0 0 0 10px rgba(107,61,245,.25);transition:transform .3s var(--ease),box-shadow .3s}
+.poster:hover .pbtn{transform:scale(1.08);box-shadow:0 0 0 18px rgba(107,61,245,.18)}
+.poster .ptxt{position:absolute;z-index:2;left:1.4rem;bottom:1.2rem;right:1.4rem;text-align:left}
+.poster .ptxt small{display:block;font-size:.8rem;opacity:.8}
+.poster .ptxt strong{font-size:clamp(1.2rem,2.4vw,1.8rem);letter-spacing:-.02em;line-height:1.1}
+.screen .corner{position:absolute;z-index:4;top:.9rem;left:1rem;pointer-events:none;opacity:.9}
+.screen .live{position:absolute;z-index:4;top:.95rem;right:1rem;pointer-events:none}
+.lower3{position:absolute;z-index:4;left:1rem;bottom:3.4rem;max-width:calc(100% - 2rem);pointer-events:none;display:flex;align-items:stretch;
+  transform:translateX(-110%);opacity:0;transition:transform .8s var(--ease),opacity .5s}
+.lower3.show{transform:none;opacity:1}
+.lower3 .tagbar{width:8px;background:var(--brush);background-size:100% 300%;border-radius:4px 0 0 4px}
+.lower3 .body{background:rgba(22,0,67,.88);backdrop-filter:blur(6px);padding:.6rem 1rem;border-radius:0 8px 8px 0}
+.lower3 small{display:block;font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--b-yellow)}
+.lower3 strong{display:block;font-size:clamp(.95rem,1.6vw,1.15rem);line-height:1.25}
+.static{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;
+  background:repeating-radial-gradient(circle at 17% 32%,#fff 0 1px,#000 1px 2px),repeating-linear-gradient(0deg,rgba(255,255,255,.2) 0 2px,transparent 2px 4px);background-size:7px 7px,100% 4px;mix-blend-mode:screen}
+.screen.switching .static{animation:staticFx .6s steps(6) forwards}
+@keyframes staticFx{0%{opacity:.95;background-position:0 0,0 0}50%{opacity:.8;background-position:3px 5px,0 2px}100%{opacity:0;background-position:6px 1px,0 4px}}
+.screen.switching .poster img{animation:roll .6s var(--ease)}
+@keyframes roll{from{transform:translateY(-6%) scaleY(1.1);filter:brightness(2) saturate(0)}to{transform:none;filter:none}}
+
+.tv-bar{display:flex;align-items:center;gap:.6rem;padding:.9rem .4rem .3rem;flex-wrap:wrap}
+.chans{display:flex;gap:.4rem;flex-wrap:wrap}
+.chan{font:600 .85rem var(--font);color:rgba(255,255,255,.75);background:rgba(255,255,255,.07);border:0;border-radius:10px;padding:.55rem .85rem;cursor:pointer;display:flex;gap:.5rem;align-items:center;transition:background .25s,color .25s}
+.chan b{font-size:.7rem;padding:.15rem .35rem;border-radius:4px;background:rgba(255,255,255,.12);font-variant-numeric:tabular-nums}
+.chan:hover{background:rgba(255,255,255,.14);color:#fff}
+.chan[aria-pressed="true"]{background:#fff;color:var(--ink)}
+.chan[aria-pressed="true"] b{background:var(--brush);color:#fff}
+.ctrls{margin-left:auto;display:flex;gap:.35rem}
+.ctl{width:42px;height:42px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;color:#fff;background:rgba(255,255,255,.08);transition:background .25s,transform .2s}
+.ctl:hover{background:var(--violet)}
+.ctl:active{transform:scale(.92)}
+.ctl:disabled{opacity:.35;cursor:not-allowed;background:rgba(255,255,255,.05)}
+.ctl svg{width:18px;height:18px}
+
+.guide{background:var(--ink);color:#fff;border-radius:24px;padding:1.2rem;max-height:calc((min(74rem,100vw) - 340px) * .5625 + 140px);display:flex;flex-direction:column}
+.guide h3{font-size:1.05rem;letter-spacing:0;display:flex;justify-content:space-between;align-items:baseline;padding:.2rem .3rem .9rem;border-bottom:1px solid rgba(255,255,255,.12)}
+.guide h3 small{font-weight:400;font-size:.8rem;opacity:.7}
+.guide ol{list-style:none;margin:.6rem 0 0;padding:0;overflow:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.3) transparent}
+.guide li button{width:100%;display:grid;grid-template-columns:96px minmax(0,1fr);gap:.8rem;align-items:center;text-align:left;font:inherit;color:inherit;background:none;border:0;border-radius:12px;padding:.5rem;cursor:pointer;transition:background .25s}
+.guide li button:hover{background:rgba(255,255,255,.08)}
+.guide li button[aria-current="true"]{background:rgba(255,255,255,.14)}
+.guide .th{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:var(--brush)}
+.guide .th img{width:100%;height:100%;object-fit:cover}
+.guide .th i{position:absolute;right:4px;bottom:4px;font-style:normal;font-size:.65rem;font-weight:700;background:rgba(0,0,0,.75);border-radius:4px;padding:0 .3rem}
+.guide .t{font-size:.85rem;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.guide .s{display:block;font-size:.72rem;opacity:.65;margin-top:.15rem}
+.guide li button[aria-current="true"] .s{opacity:1;color:var(--b-yellow);font-weight:600}
+.guide .empty{padding:1rem .3rem;font-size:.9rem;opacity:.85}
+.guide .empty .btn{margin-top:1rem}
+.tv-note{font-size:.88rem;color:var(--muted);margin:1.2rem 0 0}
+
+/* blog */
+.post-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2rem;align-items:center;padding:2rem;border-radius:22px;background:var(--cream);text-decoration:none;color:inherit;transition:transform .4s var(--ease),box-shadow .4s}
+.post-card:hover{transform:translateY(-4px);box-shadow:0 30px 60px -30px rgba(36,0,107,.45)}
+.post-card h3{font-size:clamp(2rem,4vw,3rem);color:var(--ink)}
+.post-card p{margin:.6rem 0 0;color:var(--muted);max-width:40rem}
+.article{max-width:40rem;margin:0 auto}
+.article p{margin:0 0 1.3rem}
+.article .intro{font-size:1.35rem;line-height:1.55;color:var(--ink);font-weight:500}
+.back{display:inline-flex;margin-bottom:2rem;font-weight:600;text-decoration:none}
+.note{background:var(--cream);border-radius:14px;padding:1rem 1.2rem;font-size:.92rem;color:var(--muted)}
+
+/* links */
+.link-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:1rem}
+.link-grid a{position:relative;display:block;padding:1.8rem 1.6rem;border-radius:22px;background:var(--cream);text-decoration:none;color:var(--ink);overflow:hidden;isolation:isolate;transition:color .35s,transform .4s var(--ease)}
+.link-grid a::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--ink);clip-path:circle(0 at 100% 0);transition:clip-path .6s var(--ease)}
+.link-grid a:hover{color:#fff;transform:translateY(-3px)}
+.link-grid a:hover::before{clip-path:circle(150% at 100% 0)}
+.link-grid strong{display:block;font-size:1.7rem;letter-spacing:-.025em;line-height:1.1}
+.link-grid span{display:block;margin-top:.4rem;font-size:.92rem;opacity:.75}
+.link-grid .arr{position:absolute;right:1.4rem;top:1.6rem;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--brush);color:#fff;transition:transform .4s var(--ease)}
+.link-grid a:hover .arr{transform:rotate(45deg)}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,6vw,5rem)}
+.direct{display:grid;gap:1rem;align-content:start}
+.direct a{display:block;padding:1.4rem 1.5rem;border-radius:20px;background:var(--ink);color:#fff;text-decoration:none;transition:transform .35s var(--ease)}
+.direct a:hover{transform:translateY(-3px)}
+.direct small{display:block;opacity:.7;font-size:.85rem}
+.direct strong{font-size:clamp(1.15rem,2vw,1.45rem);word-break:break-word}
+form{display:grid;gap:1rem;background:var(--cream);border-radius:24px;padding:clamp(1.4rem,3vw,2.2rem)}
+label{font-weight:600;font-size:.9rem;color:var(--ink);display:grid;gap:.4rem}
+input,textarea{font:inherit;padding:.85rem 1rem;border:1.5px solid transparent;border-radius:12px;background:#fff;color:var(--text);transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 4px rgba(107,61,245,.15)}
+textarea{min-height:9rem;resize:vertical}
+.hint{font-size:.85rem;color:var(--muted);margin:0}
+.msg{font-size:.92rem;color:var(--ink);min-height:1.4em;margin:0}
+
+/* footer */
+.site-foot{background:var(--ink);color:rgba(255,255,255,.8);padding:clamp(3rem,7vw,5rem) 0 2rem;position:relative}
+.site-foot::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--brush)}
+.foot-top{display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
+.foot-top p{margin:0;color:#fff;font-size:clamp(1.6rem,4vw,2.6rem);font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.foot-top p em{font-weight:300}
+.socials{display:flex;gap:.6rem}
+.socials a{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;background:rgba(255,255,255,.08);transition:background .3s,transform .3s var(--ease)}
+.socials a:hover{background:var(--violet);transform:translateY(-3px)}
+.socials svg{width:20px;height:20px}
+.foot-bottom{margin-top:2.5rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.85rem}
+.foot-bottom nav{display:flex;gap:1.2rem;flex-wrap:wrap}
+.foot-bottom a{color:rgba(255,255,255,.8);text-decoration:none}
+.foot-bottom a:hover{color:#fff}
+
+/* responsive */
+@media (max-width:1000px){
+  .tv-wrap{grid-template-columns:1fr}
+  .guide{max-height:420px}
+}
+@media (max-width:900px){
+  .hero-grid,.book-band .grid,.about-grid,.book-page,.contact-grid{grid-template-columns:1fr}
+  .message .cols{grid-template-columns:1fr}
+  .book-page .cover{position:static}
+  .facts{grid-template-columns:1fr}
+  .post-card{grid-template-columns:1fr}
+  .tv-chan{display:none}
+}
+@media (max-width:520px){
+  .ctrls{margin-left:0;width:100%;justify-content:space-between}
+  .lower3{bottom:1rem}
+  .poster .pbtn{width:70px;height:70px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .words .w,.fade{opacity:1!important;filter:none!important;transform:none!important}
+  .stroke::after{transform:scaleX(1)}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head" id="head">
+  <a class="brand" href="#/" aria-label="For The Love Of God — home">
+    <img data-img="logo" alt="For The Love Of God Down Under">
+    <span class="word" hidden>For The Love Of God<em>Down Under</em></span>
+  </a>
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+  </button>
+  <nav class="nav" id="nav" aria-label="Main">
+    <button class="close" id="menuClose" aria-label="Close menu">&times;</button>
+    <a href="#/about">About us</a>
+    <a href="#/publications">Publications</a>
+    <a href="#/blog">Blog</a>
+    <a href="#/links">Links</a>
+    <a href="#/contact">Contact us</a>
+    <a href="#/media" class="tv-link"><span class="dot"></span>Love of God TV</a>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- ================= HOME ================= -->
+<section class="page" data-page="home">
+  <div class="hero">
+    <div class="imgbox"><img data-img="hero" alt="Aerial view of Warrnambool and Lady Bay"></div>
+    <div class="wrap hero-grid">
+      <div>
+        <h1 class="words" data-split>He loves <span class="brush-text">you.</span></h1>
+        <p class="lead fade">Rick and Anna Clissold share a simple desire: that every person would come to know that <strong>before creation you were on His mind.</strong></p>
+        <div class="actions fade">
+          <a class="btn" href="#message" data-scroll>Read the message</a>
+          <a class="btn light" href="#/media"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Watch Love of God TV</a>
+        </div>
+      </div>
+      <div class="fade">
+        <a class="mini-tv" href="#/media" aria-label="Open Love of God TV">
+          <div class="scr imgbox">
+            <img data-thumb="home" alt="">
+            <span class="bug corner">LOVE OF GOD <span>TV</span></span>
+            <span class="live"><span class="dot"></span>ON AIR</span>
+            <span class="pbtn"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span>
+          </div>
+          <div class="cap"><span><b>Now showing</b> on Love of God TV</span><span>Open player</span></div>
+        </a>
+        <div class="blog-card">
+          <small>From the blog</small>
+          <p>Unlike eros, which is the fear-driven logic of reward and punishment that has shaped religion since the Fall, grace reveals the true heart of the Trinity.</p>
+          <a href="#/blog/grace-and-agape">Keep reading our blog</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="message curve" id="message">
+    <div class="wrap">
+      <div class="cols">
+        <div class="fade"><span class="num"></span><p>He knitted you together in your mother’s womb, watches over you as you sleep, and is with you through the day. You are His child, you are never alone. He is in perfect union with you.</p></div>
+        <div class="fade"><span class="num"></span><p>He knows your thoughts, your dreams, your hurts, and your pain. He understands your confusion, in your darkest hours He sits with you, longing to embrace and comfort you. He delights in you, sings and dances over you, and desires that you see Him as He truly is: <span class="lk brush-text">Lovingkindness.</span></p></div>
+        <div class="fade"><span class="num"></span><p>He came to heal and restore you to your true identity. Whatever you are searching for, whatever solutions fail you, perhaps He not only holds the answers, but is Himself the answer.</p></div>
+      </div>
+      <p class="big-line words" data-split>Amidst all the confusion of religion, the message remains simple: <span class="brush-text">He loves you.</span></p>
+    </div>
+  </div>
+
+  <div class="book-band">
+    <div class="wrap grid">
+      <div class="cover imgbox fade">
+        <img data-img="book" alt="Cover of Loving Kindness and the Child by Rick Clissold">
+        <div class="fb"><strong>Loving Kindness and the Child</strong><span>Rick Clissold</span></div>
+      </div>
+      <div>
+        <p class="eyebrow">The book by Rick Clissold</p>
+        <h2 class="h2"><span class="stroke">Loving Kindness</span> and the Child</h2>
+        <p class="tag">A raw and beautiful journey from darkness to divine love.</p>
+        <div class="actions">
+          <a class="btn" href="#/publications">About the book</a>
+          <a class="btn line" data-link="amazon" target="_blank" rel="noopener">Buy on Amazon</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="page" data-page="about">
+  <div class="banner curve">
+    <div class="imgbox curve"><img data-img="about" alt=""></div>
+    <div class="wrap"><h1 class="words" data-split>About us</h1><p>Rick and Anna Clissold, New Life Christian Church, Warrnambool.</p></div>
+  </div>
+  <div class="section">
+    <div class="wrap about-grid">
+      <div>
+        <h2 class="h2"><span class="stroke">Meet Rick</span></h2>
+        <p class="lede">Pastor Rick Clissold was inducted as Senior Pastor of New Life Christian Church (NLCC) in 2018, alongside his wife, Dr. Anna Clissold.</p>
+        <p>Under their leadership, NLCC has continued to thrive as a Pentecostal church affiliated with CRC Churches International.</p>
+        <p>Pastor Rick leads with a heart for community, a passion for the Word, and a commitment to empowering others through the Holy Spirit. He serves alongside the church eldership, fostering a culture of faith, service, and transformation.</p>
+        <div class="facts">
+          <div><b>Since 2018</b>Senior Pastors of NLCC</div>
+          <div><b>Warrnambool</b>Victoria, Australia</div>
+          <div><b>CRC Churches</b>International affiliate</div>
+        </div>
+        <a class="btn" href="https://newlifewbool.org.au/" target="_blank" rel="noopener">Visit New Life Christian Church</a>
+      </div>
+      <div class="portrait imgbox fade"><img data-img="rick" alt="Pastor Rick Clissold"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PUBLICATIONS ================= -->
+<section class="page" data-page="publications">
+  <div class="banner curve">
+    <div class="imgbox curve"><img data-img="towerhill" alt=""></div>
+    <div class="wrap"><h1 class="words" data-split>Publications</h1><p>Writing by Rick Clissold.</p></div>
+  </div>
+  <div class="section cream">
+    <div class="wrap book-page">
+      <div class="cover imgbox">
+        <img data-img="book" alt="Cover of Loving Kindness and the Child by Rick Clissold">
+        <div class="fb"><strong>Loving Kindness and the Child</strong><span>Rick Clissold</span></div>
+      </div>
+      <div style="max-width:40rem">
+        <h2 class="h2"><span class="stroke">Loving Kindness</span> and the Child</h2>
+        <p class="tag">A raw and beautiful journey from darkness to divine love.</p>
+        <p>What happens when a man who believes he is broken beyond repair discovers that God is relentless in His love for him?</p>
+        <p>From his early years in Australia’s Charismatic Renewal, through a decades-long struggle with alcohol and self-destruction, Rick tells the honest story of hearing God say <em>“You are My problem”</em> — and learning what it means to be loved without condition. Transformation, he found, comes not from trying harder but from seeing clearer.</p>
+        <h3 style="font-size:1.3rem;color:var(--ink);margin-top:2rem">Inside you’ll find</h3>
+        <ul class="learn">
+          <li>How God’s love reaches us in our darkest moments</li>
+          <li>The difference between religion and relationship</li>
+          <li>Living as the beloved child rather than the performing adult</li>
+          <li>How grace works in the mess of real life</li>
+          <li>A God who sits with us in our struggles</li>
+        </ul>
+        <p>Part memoir, part spiritual reflection — for anyone wrestling with shame, or who has ever felt too far gone to come home.</p>
+        <blockquote class="quote">“If I’ve learned anything, it’s this: Loving Kindness is better than we think — always.”<cite>Rick Clissold</cite></blockquote>
+        <div class="price"><div><b>$19.99</b>Paperback, AUD</div><div><b>$11.99</b>Kindle, AUD</div></div>
+        <a class="btn" data-link="amazon" target="_blank" rel="noopener">Buy now on Amazon</a>
+        <p style="font-size:.88rem;color:var(--muted);margin-top:1.4rem">Published by TWS Publishing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEDIA / LOVE OF GOD TV ================= -->
+<section class="page" data-page="media">
+  <div class="banner curve">
+    <div class="imgbox curve"><img data-img="media" alt=""></div>
+    <div class="wrap"><h1 class="words" data-split>Love of God <span class="brush-text">TV</span></h1><p>Pastor Rick shares his faith and insights through video messages on YouTube and GAN TV, the Grace Awakening Network.</p></div>
+  </div>
+  <div class="section">
+    <div class="wrap">
+      <div class="tv-wrap">
+        <div class="tv" id="tv">
+          <div class="tv-top">
+            <span class="tv-logo">LOVE OF GOD <span>TV</span></span>
+            <span class="tv-chan" id="tvChan"></span>
+            <time class="tv-clock" id="tvClock"></time>
+          </div>
+          <div class="screen" id="screen">
+            <div id="ytScreen"></div>
+            <button class="poster" id="poster" type="button">
+              <img id="posterImg" alt="">
+              <span class="pbtn"><svg width="34" height="34" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span>
+              <span class="ptxt"><small id="posterSub">Press play to start</small><strong id="posterTitle"></strong></span>
+            </button>
+            <span class="bug corner">LOVE OF GOD <span>TV</span></span>
+            <span class="live"><span class="dot"></span>ON AIR</span>
+            <div class="lower3" id="lower3"><span class="tagbar"></span><div class="body"><small>NOW SHOWING</small><strong id="nowTitle"></strong></div></div>
+            <div class="static"></div>
+          </div>
+          <div class="tv-bar">
+            <div class="chans" id="chans" role="group" aria-label="Channels"></div>
+            <div class="ctrls">
+              <button class="ctl" id="prevBtn" aria-label="Previous"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM9.5 12 18 18V6z"/></svg></button>
+              <button class="ctl" id="playBtn" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+              <button class="ctl" id="nextBtn" aria-label="Next"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
+              <button class="ctl" id="muteBtn" aria-label="Mute"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <aside class="guide" aria-label="Programme guide">
+          <h3>Programme guide <small id="guideCount"></small></h3>
+          <ol id="guide"></ol>
+        </aside>
+      </div>
+      <p class="tv-note">Love of God TV plays from our YouTube channel. <a data-link="youtube" target="_blank" rel="noopener">Subscribe on YouTube</a> to catch every new episode.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BLOG ================= -->
+<section class="page" data-page="blog">
+  <div class="banner curve">
+    <div class="imgbox curve"><img data-img="hero" alt=""></div>
+    <div class="wrap"><h1 class="words" data-split>Blog</h1><p>Reflections on grace, agape and the heart of the Father.</p></div>
+  </div>
+  <div class="section"><div class="wrap" id="postList" style="display:grid;gap:1rem"></div></div>
+</section>
+<section class="page" data-page="post">
+  <div class="banner curve">
+    <div class="imgbox curve"><img data-img="hero" alt=""></div>
+    <div class="wrap"><h1 id="postTitle"></h1></div>
+  </div>
+  <div class="section"><article class="wrap article" id="postBody"></article></div>
+</section>
+
+<!-- ================= LINKS ================= -->
+<section class="page" data-page="links">
+  <div class="banner curve" style="min-height:clamp(380px,60vh,560px)">
+    <div class="imgbox curve"><img data-img="towerhill" alt="Tower Hill Wildlife Reserve"></div>
+    <div class="wrap"><h1 class="words" data-split>Links</h1><p>Where else to find us.</p></div>
+  </div>
+  <div class="section">
+    <div class="wrap link-grid">
+      <a href="https://newlifewbool.org.au/" target="_blank" rel="noopener"><strong>NLCC</strong><span>View the New Life Christian Church website</span><i class="arr"></i></a>
+      <a data-link="facebook" target="_blank" rel="noopener"><strong>Facebook</strong><span>Follow us on Facebook</span><i class="arr"></i></a>
+      <a data-link="youtube" target="_blank" rel="noopener"><strong>YouTube</strong><span>Watch our YouTube videos</span><i class="arr"></i></a>
+      <a data-link="instagram" target="_blank" rel="noopener"><strong>Instagram</strong><span>Follow us on Instagram</span><i class="arr"></i></a>
+      <a href="#/media"><strong>Love of God TV</strong><span>Watch episodes and worship here</span><i class="arr"></i></a>
+      <a href="#/contact"><strong>Contact</strong><span>Get in touch</span><i class="arr"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="page" data-page="contact">
+  <div class="banner curve">
+    <div class="imgbox curve"><img data-img="about" alt=""></div>
+    <div class="wrap"><h1 class="words" data-split>Contact</h1><p>Feel free to contact us with any questions.</p></div>
+  </div>
+  <div class="section">
+    <div class="wrap contact-grid">
+      <div class="direct">
+        <a id="emailLink"><small>Email</small><strong id="emailText"></strong></a>
+        <a id="phoneLink"><small>Phone</small><strong id="phoneText"></strong></a>
+      </div>
+      <form id="contactForm" novalidate>
+        <label>Your name<input name="name" autocomplete="name" required></label>
+        <label>Your email<input name="email" type="email" autocomplete="email" required></label>
+        <label>Message<textarea name="message" required></textarea></label>
+        <p class="hint">This opens your email app with the message ready to send.</p>
+        <div><button class="btn" type="submit">Write the email</button></div>
+        <p class="msg" id="formMsg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <p>For The Love Of God <em>Down Under</em></p>
+      <div class="socials">
+        <a data-link="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a data-link="facebook" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5h2.5l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H8v3h2.6V21h2.9z"/></svg></a>
+        <a data-link="youtube" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3L10 15z"/></svg></a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; <span id="year"></span> For The Love Of God, Warrnambool, Victoria</span>
+      <nav aria-label="Footer"><a href="#/about">About</a><a href="#/publications">Publications</a><a href="#/media">TV</a><a href="#/blog">Blog</a><a href="#/contact">Contact</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =================================================================
+   CONTENT — edit here
+   ================================================================= */
+const SQ = "https://images.squarespace-cdn.com/content/v1/6862618e970b3f71b43ca2b6/";
+const IMAGES = {
+  logo:      SQ + "b4bf2919-c395-4f44-a08c-a55e0a218437/ftlog+logo.png?format=750w",
+  hero:      SQ + "b37712b3-b339-4785-aa38-19ccd5634c29/Photo+Of+Wbool+For+Ricks+Website+copy.jpg?format=2500w",
+  about:     SQ + "7eef056e-8268-4615-bc04-9f3ebe5b553b/pat-whelen-XdYQU3yq6Xw-unsplash.jpg?format=2500w",
+  rick:      SQ + "0e3a5a43-99af-49ed-bb5f-443d5f6a1a63/0K6A8772.jpg?format=1500w",
+  book:      SQ + "efeea491-1f00-4233-9044-157d85364c95/61dCUsYeDfL._SY522_.jpg",
+  media:     SQ + "1752801314094-RF7G1HOKO2WXFA04C33W/unsplash-image-5c8fczgvar0.jpg?format=2500w",
+  towerhill: SQ + "6af875dd-6a2a-4ae4-b57f-d805283a5cf4/Tower_hill_wildlife_reserve_volcano_gor_r_1600x1200.jpg?format=2500w"
+};
+
+const LINKS = {
+  amazon:    "https://www.amazon.com.au/dp/1966818106",
+  youtube:   "https://www.youtube.com/@FORTHELOVEOFGOD-t5p",
+  facebook:  "https://www.facebook.com/p/For-The-Love-Of-God-Down-Under-61561639577134/",
+  instagram: "https://www.instagram.com/fortheloveofgoddownunder/"
+};
+
+/* LOVE OF GOD TV channels.
+   Each channel takes EITHER a YouTube playlist id ("PL…", or the channel's
+   uploads list "UU…") OR a list of video ids (the 11 characters after v= in
+   a YouTube link). The programme guide fills itself in from YouTube.        */
+const CHANNELS = [
+  { num: 1, name: "Down Under episodes", playlist: "", videos: [
+      /* paste episode video ids here, e.g. "abcDEF12345", */
+    ], link: "https://www.youtube.com/@FORTHELOVEOFGOD-t5p" },
+  { num: 2, name: "Worship", playlist: "PLM7h6BxcYQdvc7A76lf0tw-Edde_Ek7lW", videos: [],
+    poster: "yw3559-i7OQ", link: "https://www.youtube.com/watch?v=yw3559-i7OQ&list=PLM7h6BxcYQdvc7A76lf0tw-Edde_Ek7lW" }
+];
+
+const CONTACT = { user: "rclissol1", domain: "gmail.com", phone: "0434 382 182" };
+
+const POSTS = [
+  {
+    slug: "grace-and-agape",
+    oldSlug: "blog-post-title-one-nhxg2",
+    title: "Grace & Agape",
+    summary: "Grace as the atmosphere where God’s unconditional love is known.",
+    intro: "Unlike eros, which is the fear-driven logic of reward and punishment that has shaped religion since the Fall, grace reveals the true heart of the Trinity.",
+    body: [
+      "This work explores the deep relationship between grace and agape, showing grace as the atmosphere where God’s unconditional love is known.",
+      "To awaken to grace is to discover God as Abba, leading to metanoia and freedom from legalism.",
+      "Through Jesus we step into abundant life, where grace is not abstract but the living expression of agape, drawing us into the intimate communion of Abba, Jesus, and Holy Spirit, where fear is cast out and love defines reality."
+    ],
+    full: false
+  }
+];
+
+/* =================================================================
+   SITE ENGINE
+   ================================================================= */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const thumb = (id, q="hqdefault") => `https://i.ytimg.com/vi/${id}/${q}.jpg`;
+
+/* images with fallback */
+function loadImages(root=document){
+  $$("img[data-img]", root).forEach(img => {
+    if (img.dataset.bound) return; img.dataset.bound = 1;
+    img.decoding = "async";
+    img.loading = img.closest(".hero,.site-head") ? "eager" : "lazy";
+    img.addEventListener("error", () => {
+      if (img.dataset.img === "logo"){ img.hidden = true; $(".brand .word").hidden = false; return; }
+      img.closest(".imgbox")?.classList.add("missing");
+    });
+    img.src = IMAGES[img.dataset.img] || "";
+  });
+}
+
+/* split headings into words for the blur-rise effect (keeps inner spans) */
+function splitWords(el){
+  let i = 0;
+  const walk = node => [...node.childNodes].forEach(n => {
+    if (n.nodeType === 3){
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(part => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.append(part); return; }
+        const s = document.createElement("span"); s.className = "w"; s.style.setProperty("--i", i++); s.textContent = part; frag.append(s);
+      });
+      n.replaceWith(frag);
+    } else if (n.nodeType === 1 && n.classList.contains("brush-text")){
+      n.classList.add("w"); n.style.setProperty("--i", i++);
+    } else if (n.nodeType === 1) walk(n);
+  });
+  walk(el);
+}
+$$("[data-split]").forEach(splitWords);
+
+/* reveal on scroll */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }), {threshold:.2, rootMargin:"0px 0px -5% 0px"});
+function arm(root){ $$(".words,.fade,.stroke", root).forEach(el => { el.classList.remove("in"); io.observe(el); }); }
+
+/* links + contact */
+$$("[data-link]").forEach(a => a.href = LINKS[a.dataset.link]);
+$$(".link-grid .arr").forEach(i => i.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg>');
+const email = CONTACT.user + "@" + CONTACT.domain;
+$("#emailText").textContent = email; $("#emailLink").href = "mailto:" + email;
+$("#phoneText").textContent = CONTACT.phone; $("#phoneLink").href = "tel:+61" + CONTACT.phone.replace(/\s/g,"").replace(/^0/,"");
+$("#year").textContent = new Date().getFullYear();
+$("#contactForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const f = e.target, m = $("#formMsg");
+  const name = f.name.value.trim(), from = f.email.value.trim(), body = f.message.value.trim();
+  if (!name || !from || !body){ m.textContent = "Add your name, email and a message, then try again."; return; }
+  if (!/^\S+@\S+\.\S+$/.test(from)){ m.textContent = "Check your email address — it looks incomplete."; f.email.focus(); return; }
+  location.href = "mailto:" + email + "?subject=" + encodeURIComponent("Message from " + name + " via theloveofgod.com.au") + "&body=" + encodeURIComponent(body + "\n\n— " + name + " (" + from + ")");
+  m.textContent = "Your email app should now be open with the message ready. If it didn’t open, email us at " + email + ".";
+});
+
+/* blog */
+function renderList(){
+  $("#postList").innerHTML = POSTS.map(p => `<a class="post-card" href="#/blog/${p.slug}"><div><h3>${p.title}</h3><p>${p.summary}</p></div><span class="btn">Read the post</span></a>`).join("");
+}
+function renderPost(slug){
+  const p = POSTS.find(x => x.slug === slug || x.oldSlug === slug); if (!p) return false;
+  $("#postTitle").textContent = p.title;
+  $("#postBody").innerHTML = `<a class="back" href="#/blog">All posts</a><p class="intro">${p.intro}</p>` + p.body.map(t => `<p>${t}</p>`).join("") +
+    (p.full ? "" : `<p class="note">The full article is coming to this page soon. Follow along on <a href="${LINKS.facebook}" target="_blank" rel="noopener">Facebook</a> in the meantime.</p>`);
+  document.title = p.title + " — For The Love Of God";
+  return true;
+}
+
+/* router */
+const TITLES = {home:"For The Love Of God", about:"About us", publications:"Publications", media:"Love of God TV", blog:"Blog", links:"Links", contact:"Contact"};
+const OLD = {"about-us":"about","contact-us":"contact",publications:"publications",media:"media",blog:"blog",links:"links","materials-for-learning":"about"};
+function parse(){
+  let h = location.hash.replace(/^#\/?/, "");
+  if (!h && location.pathname.length > 1){
+    const parts = location.pathname.replace(/^\/|\/$/g,"").split("/");
+    const base = parts.at(-2) === "blog" ? "blog/" + parts.at(-1) : (OLD[parts.at(-1)] || "");
+    if (base){ history.replaceState(null, "", "/#/" + base); h = base; }
+  }
+  return h.split("/");
+}
+let first = true;
+function route(){
+  const go = () => {
+    const [seg, sub] = parse();
+    let page = seg || "home";
+    if (page === "blog" && sub) page = renderPost(sub) ? "post" : "blog";
+    if (!TITLES[page] && page !== "post") page = "home";
+    if (page === "blog") renderList();
+    $$(".page").forEach(s => s.classList.toggle("active", s.dataset.page === page));
+    $$(".nav a").forEach(a => {
+      const t = a.getAttribute("href").replace("#/","");
+      if (t === page || (page === "post" && t === "blog")) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
+    });
+    if (page !== "post") document.title = page === "home" ? TITLES.home : TITLES[page] + " — For The Love Of God";
+    const el = $(`.page[data-page="${page}"]`);
+    loadImages(el); arm(el);
+    if (page === "media") TV.init();
+    closeMenu();
+    window.scrollTo({top:0, behavior:"instant"});
+    document.body.classList.remove("leaving");
+    onScroll();
+  };
+  if (first || reduced){ first = false; go(); return; }
+  document.body.classList.add("leaving"); setTimeout(go, 180);
+}
+window.addEventListener("hashchange", route);
+$$("[data-scroll]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); $(a.getAttribute("href")).scrollIntoView({behavior: reduced ? "auto" : "smooth"}); }));
+
+/* header */
+function onScroll(){ $("#head").classList.toggle("solid", window.scrollY > 30); }
+window.addEventListener("scroll", onScroll, {passive:true});
+const nav = $("#nav"), mbtn = $("#menuBtn");
+function openMenu(){ nav.classList.add("open"); mbtn.setAttribute("aria-expanded","true"); document.body.style.overflow="hidden"; $("#menuClose").focus(); }
+function closeMenu(){ nav.classList.remove("open"); mbtn.setAttribute("aria-expanded","false"); document.body.style.overflow=""; }
+mbtn.addEventListener("click", openMenu);
+$("#menuClose").addEventListener("click", () => { closeMenu(); mbtn.focus(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && nav.classList.contains("open")){ closeMenu(); mbtn.focus(); } });
+
+/* =================================================================
+   LOVE OF GOD TV — broadcast-style player on the YouTube IFrame API.
+   Nothing loads from YouTube (beyond thumbnails) until someone presses play.
+   ================================================================= */
+const TV = (() => {
+  const live = CHANNELS.filter(c => c.playlist || c.videos.length);
+  let ch = live[0] || CHANNELS[0], player = null, apiP = null, started = false, guideFor = null, l3Timer;
+  const titles = {};
+
+  const setChanLabel = () => $("#tvChan").textContent = `CH ${ch.num}  ${ch.name}`;
+  const clock = () => $("#tvClock").textContent = new Date().toLocaleTimeString("en-AU",{timeZone:"Australia/Melbourne",hour:"numeric",minute:"2-digit"});
+
+  function api(){
+    if (apiP) return apiP;
+    apiP = new Promise(res => {
+      window.onYouTubeIframeAPIReady = res;
+      const s = document.createElement("script"); s.src = "https://www.youtube.com/iframe_api"; document.head.append(s);
+    });
+    return apiP;
+  }
+  function staticFx(){ const s = $("#screen"); s.classList.remove("switching"); void s.offsetWidth; s.classList.add("switching"); }
+
+  async function title(id){
+    if (titles[id]) return titles[id];
+    try{
+      const r = await fetch("https://noembed.com/embed?url=" + encodeURIComponent("https://www.youtube.com/watch?v=" + id));
+      const j = await r.json(); titles[id] = j.title || null;
+    }catch{ titles[id] = null; }
+    return titles[id];
+  }
+
+  function renderButtons(){
+    $("#chans").innerHTML = CHANNELS.map((c,i) => `<button class="chan" type="button" data-i="${i}" aria-pressed="${c===ch}"><b>CH ${c.num}</b>${c.name}</button>`).join("");
+    $$("#chans .chan").forEach(b => b.onclick = () => tune(CHANNELS[+b.dataset.i]));
+  }
+
+  function offAir(){
+    $("#guide").innerHTML = `<li class="empty">This channel plays straight from YouTube.<br><a class="btn" href="${ch.link}" target="_blank" rel="noopener">Watch on YouTube</a></li>`;
+    $("#guideCount").textContent = "";
+  }
+
+  function posterFor(c){
+    const id = c.poster || c.videos[0];
+    $("#posterImg").src = id ? thumb(id, "maxresdefault") : (IMAGES.hero);
+    const pi = $("#posterImg"); pi.style.visibility = "";
+    pi.onerror = function(){ if (id && !this.src.includes("hqdefault")) this.src = thumb(id); else this.style.visibility = "hidden"; };
+    $("#posterTitle").textContent = c.name;
+    $("#posterSub").textContent = (c.playlist || c.videos.length) ? "Press play to start" : "Watch this channel on YouTube";
+  }
+
+  function tune(c){
+    if (c === ch && started) return;
+    ch = c; staticFx(); setChanLabel(); renderButtons();
+    if (!(c.playlist || c.videos.length)){
+      if (player) { try{ player.stopVideo(); }catch{} }
+      $("#poster").hidden = false; posterFor(c); offAir(); setCtrls(false); return;
+    }
+    if (started && player){ $("#poster").hidden = true; cue(true); }
+    else { posterFor(c); previewGuide(); }
+  }
+
+  /* before YouTube loads, a channel with a video list can still show its guide from thumbnails */
+  function previewGuide(){
+    if (ch.videos.length) renderGuide(ch.videos, -1);
+    else { $("#guide").innerHTML = `<li class="empty">Press play and the full line-up for this channel appears here.</li>`; $("#guideCount").textContent = ""; }
+  }
+
+  function renderGuide(ids, cur){
+    guideFor = ch;
+    $("#guideCount").textContent = ids.length + (ids.length === 1 ? " programme" : " programmes");
+    $("#guide").innerHTML = ids.map((id,i) => `
+      <li><button type="button" data-i="${i}" aria-current="${i===cur}">
+        <span class="th"><img loading="lazy" src="${thumb(id,'mqdefault')}" alt=""><i>${String(i+1).padStart(2,"0")}</i></span>
+        <span><span class="t" data-id="${id}">${titles[id] || "Programme " + (i+1)}</span><span class="s">${i===cur ? "Now showing" : i===cur+1 ? "Up next" : ""}</span></span>
+      </button></li>`).join("");
+    $$("#guide button").forEach(b => b.onclick = () => play(+b.dataset.i));
+    $$("#guide .t").forEach(async t => { const n = await title(t.dataset.id); if (n) t.textContent = n; });
+  }
+  function markGuide(cur){
+    $$("#guide button").forEach((b,i) => {
+      b.setAttribute("aria-current", i===cur);
+      $(".s", b).textContent = i===cur ? "Now showing" : i===cur+1 ? "Up next" : "";
+      if (i===cur) b.scrollIntoView({block:"nearest", behavior: reduced ? "auto" : "smooth"});
+    });
+  }
+
+  function cue(auto){
+    const opt = ch.playlist ? {listType:"playlist", list:ch.playlist, index:0} : {playlist:ch.videos, index:0};
+    auto ? player.loadPlaylist(opt) : player.cuePlaylist(opt);
+  }
+
+  async function start(idx){
+    if (!(ch.playlist || ch.videos.length)){ window.open(ch.link, "_blank", "noopener"); return; }
+    started = true;
+    $("#posterSub").textContent = "Tuning in…";
+    await api();
+    if (!player){
+      player = new YT.Player("ytScreen", {
+        host: "https://www.youtube-nocookie.com",
+        playerVars: {rel:0, modestbranding:1, playsinline:1, iv_load_policy:3, color:"white"},
+        events: {
+          onReady: () => { staticFx(); $("#poster").hidden = true; cue(true); if (idx) setTimeout(() => play(idx), 800); },
+          onStateChange: onState
+        }
+      });
+    } else { $("#poster").hidden = true; cue(true); }
+  }
+  function play(i){
+    if (!player || !started){ start(i); return; }
+    staticFx(); player.playVideoAt(i);
+  }
+
+  function setCtrls(on){ ["prevBtn","nextBtn","muteBtn"].forEach(id => $("#"+id).disabled = !on); }
+  function onState(e){
+    const S = YT.PlayerState;
+    const ids = player.getPlaylist() || [];
+    if (ids.length && guideFor !== ch) renderGuide(ids, player.getPlaylistIndex());
+    setCtrls(true);
+    if (e.data === S.PLAYING){
+      const i = player.getPlaylistIndex(); markGuide(i);
+      const t = (player.getVideoData() || {}).title || titles[ids[i]] || ch.name;
+      $("#nowTitle").textContent = t;
+      const l3 = $("#lower3"); l3.classList.add("show"); clearTimeout(l3Timer); l3Timer = setTimeout(() => l3.classList.remove("show"), 6000);
+    }
+    $("#playBtn").setAttribute("aria-label", e.data === S.PLAYING ? "Pause" : "Play");
+    $("#playBtn").innerHTML = e.data === S.PLAYING
+      ? '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  }
+
+  let ready = false;
+  function init(){
+    if (ready) return; ready = true;
+    renderButtons(); setChanLabel(); posterFor(ch); clock(); setInterval(clock, 15000);
+    (ch.playlist || ch.videos.length) ? previewGuide() : offAir();
+    setCtrls(false);
+    $("#poster").onclick = () => start(0);
+    $("#playBtn").onclick = () => {
+      if (!player || !started){ start(0); return; }
+      player.getPlayerState() === YT.PlayerState.PLAYING ? player.pauseVideo() : player.playVideo();
+    };
+    $("#prevBtn").onclick = () => { staticFx(); player.previousVideo(); };
+    $("#nextBtn").onclick = () => { staticFx(); player.nextVideo(); };
+    $("#muteBtn").onclick = () => { if (player.isMuted()){ player.unMute(); $("#muteBtn").style.opacity = 1; } else { player.mute(); $("#muteBtn").style.opacity = .5; } };
+  }
+  return {init};
+})();
+
+/* home mini-TV poster */
+(() => { const c = CHANNELS.find(c => c.poster || c.videos.length); const img = $('[data-thumb="home"]');
+  if (c){ const id = c.poster || c.videos[0]; img.src = thumb(id, "maxresdefault"); img.onerror = () => { if (!img.src.includes("hqdefault")) img.src = thumb(id); else img.closest(".imgbox").classList.add("missing"); }; } })();
+
+loadImages($("#head"));
+route();
+</script>
+</body>
+</html>
